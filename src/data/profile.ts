@@ -4,7 +4,7 @@ export const profile = {
     headline: "I build modern web apps, e-commerce storefronts, and AI-powered products.",
     tagline: "I leverage modern tools like React, Shopify, and AI to build faster and ship more, creating products people actually use.",
     availability: "Available for roles",
-    bio: `I am a recent Computer Science graduate with hands-on experience building custom Shopify stores, robust web applications, and AI-powered tools using Python, React, HTML, CSS, and JavaScript. From building RAG chatbots for the Naga City Government to achieving perfect Lighthouse accessibility scores on Shopify storefronts, I am deeply passionate about shipping high-quality code and participating in tech events like AI4AI FAIR where I was a Vibe Coding Champion.`,
+    bio: `I am Herald Carl Nicol Avila (also known as Herald from Bicol), a recent Computer Science graduate with hands-on experience building custom Shopify stores, robust web applications, and AI-powered tools using Python, React, HTML, CSS, and JavaScript. From building RAG chatbots for the Naga City Government to achieving perfect Lighthouse accessibility scores on Shopify storefronts, I am deeply passionate about shipping high-quality code and participating in tech events like AI4AI FAIR where I was a Vibe Coding Champion.`,
     email: "heraldcarlavila@gmail.com",
     phone: "+639993939533",
     location: "Bicol, PH",

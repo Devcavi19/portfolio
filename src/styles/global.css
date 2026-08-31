@@ -552,6 +552,12 @@ button {
     padding: 0.55rem 0;
     justify-content: center;
   }
+
+  .sidebar-desktop.desktop-collapsed ~ .main-content {
+    margin-left: auto;
+    margin-right: auto;
+    transition: margin 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
 }
 
 

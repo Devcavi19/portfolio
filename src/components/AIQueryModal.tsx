@@ -123,15 +123,29 @@ export const AIQueryModal: React.FC<AIQueryModalProps> = ({ isOpen, onClose, onN
   const typingTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+
     if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
       setTimeout(() => inputRef.current?.focus(), 50);
     } else {
+      document.body.style.overflow = '';
       setQuery('');
       setActiveAnswer(null);
       setTypedText('');
       setIsTyping(false);
     }
-  }, [isOpen]);
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
 
   const handleAsk = (userQuery: string) => {
     if (!userQuery.trim()) return;

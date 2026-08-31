@@ -1,19 +1,13 @@
 import React from 'react';
 import { profile } from '../../data/profile';
+import { FaPython, FaReact, FaGitAlt, FaBrain } from 'react-icons/fa';
 import {
-    FaPython, FaReact, FaGitAlt,
-    FaBrain, FaRobot, FaShieldAlt, FaCloud, FaBalanceScale,
-} from 'react-icons/fa';
-import {
-    SiFlask, SiTypescript, SiSupabase, SiVercel, SiNumpy,
-    SiTensorflow, SiShopify
+    SiTypescript, SiSupabase, SiShopify, SiTailwindcss, SiNodedotjs, SiVite
 } from 'react-icons/si';
-import { BsChatSquareQuote, BsTerminal } from 'react-icons/bs';
-import { BiMessageRoundedDots } from 'react-icons/bi';
+import { BsTerminal, BsChatSquareQuote } from 'react-icons/bs';
 import { RiFilePaper2Line } from 'react-icons/ri';
 import { HiSparkles } from 'react-icons/hi';
-import { FiCheck } from 'react-icons/fi';
-import SectionHeader from '../Layout/SectionHeader';
+import { FiCpu, FiCheck } from 'react-icons/fi';
 
 const getSkillIcon = (skillName: string) => {
     const key = skillName.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -21,78 +15,69 @@ const getSkillIcon = (skillName: string) => {
         case key.includes('python'): return <FaPython />;
         case key.includes('typescript'): return <SiTypescript />;
         case key.includes('react'): return <FaReact />;
-        case key.includes('flask'): return <SiFlask />;
         case key.includes('supabase'): return <SiSupabase />;
-        case key.includes('vercel'): return <SiVercel />;
+        case key.includes('tailwind'): return <SiTailwindcss />;
+        case key.includes('shopify') || key.includes('liquid'): return <SiShopify />;
+        case key.includes('node'): return <SiNodedotjs />;
+        case key.includes('vite'): return <SiVite />;
         case key.includes('git'): return <FaGitAlt />;
-        case key.includes('numpy') || key.includes('pandas'): return <SiNumpy />;
         case key.includes('artificialintelligence'): return <FaBrain />;
-        case key.includes('generativeai'): return <FaRobot />;
-        case key.includes('nlp'): return <BiMessageRoundedDots />;
-        case key.includes('rag'): return <RiFilePaper2Line />;
-        case key.includes('machinelearning'): return <SiTensorflow />;
+        case key.includes('rag') || key.includes('retrieval'): return <RiFilePaper2Line />;
         case key.includes('prompt'): return <BsTerminal />;
-        case key.includes('chatbot'): return <FaRobot />;
-        case key.includes('cybersecurity'): return <FaShieldAlt />;
+        case key.includes('vector') || key.includes('faiss'): return <FiCpu />;
         case key.includes('llm'): return <BsChatSquareQuote />;
-        case key.includes('cloud'): return <FaCloud />;
-        case key.includes('ethics'): return <FaBalanceScale />;
-        case key.includes('shopify'): return <SiShopify />;
-        case key.includes('copilot'): return <FaRobot />;
-        case key.includes('vibe'): return <HiSparkles />;
-        default: return <span>#</span>;
+        case key.includes('accessibility') || key.includes('ui'): return <HiSparkles />;
+        default: return <FiCpu />;
     }
 };
 
 const Skills: React.FC = () => {
     return (
-        <section id="skills" className="section" style={styles.section}>
-            <div className="container">
-                <SectionHeader
-                    eyebrow="Toolkit"
-                    title={<>The stack I <em>build with.</em></>}
-                />
+        <section id="skills" className="portfolio-section">
+            <div className="section-label">05 / SKILLS & TECH STACK</div>
+            <h2 className="section-title">Technical Toolchain & Skills</h2>
 
-                <div style={styles.groups}>
-                    <div style={styles.group}>
-                        <h3 style={styles.subHeading}>Technical</h3>
-                        <div style={styles.grid}>
-                            {profile.skills.technical.map((skill, index) => (
-                                <div key={index} className="tile" style={styles.item}>
-                                    <span style={styles.iconWrapper}>{getSkillIcon(skill)}</span>
-                                    <span style={styles.name}>{skill}</span>
-                                </div>
-                            ))}
-                        </div>
+            <div style={styles.groups}>
+                {/* Primary Technical Stack */}
+                <div>
+                    <h3 style={styles.groupHeader}>PRIMARY DEVELOPMENT STACK</h3>
+                    <div style={styles.grid}>
+                        {profile.skills.technical.map((skill, index) => (
+                            <div key={index} className="clean-card" style={styles.tile}>
+                                <span style={styles.icon}>{getSkillIcon(skill)}</span>
+                                <span style={styles.skillName}>{skill}</span>
+                            </div>
+                        ))}
                     </div>
+                </div>
 
-                    <div style={styles.group}>
-                        <h3 style={styles.subHeading}>AI focus areas</h3>
-                        <div style={styles.grid}>
-                            {profile.skills.advanced.map((skill, index) => (
-                                <div key={index} className="tile" style={styles.item}>
-                                    <span style={styles.iconWrapper}>{getSkillIcon(skill)}</span>
-                                    <span style={styles.name}>{skill}</span>
-                                </div>
-                            ))}
-                        </div>
+                {/* AI & RAG Specialties */}
+                <div>
+                    <h3 style={styles.groupHeader}>AI & SPECIALIZED ARCHITECTURES</h3>
+                    <div style={styles.grid}>
+                        {profile.skills.advanced.map((skill, index) => (
+                            <div key={index} className="clean-card" style={styles.tile}>
+                                <span style={styles.icon}>{getSkillIcon(skill)}</span>
+                                <span style={styles.skillName}>{skill}</span>
+                            </div>
+                        ))}
                     </div>
+                </div>
 
-                    <div style={styles.group}>
-                        <h3 style={styles.subHeading}>
-                            Certifications
-                            <span style={styles.count}>{profile.skills.certifications.length}</span>
-                        </h3>
-                        <div style={styles.certGrid}>
-                            {profile.skills.certifications.map((cert, index) => (
-                                <div key={index} className="tile" style={styles.certItem}>
-                                    <span style={styles.certCheck}>
-                                        <FiCheck size={13} strokeWidth={3} />
-                                    </span>
-                                    {cert}
+                {/* Industry Certifications */}
+                <div>
+                    <h3 style={styles.groupHeader}>
+                        VERIFIED CERTIFICATIONS ({profile.skills.certifications.length})
+                    </h3>
+                    <div style={styles.certGrid}>
+                        {profile.skills.certifications.map((cert, index) => (
+                            <div key={index} className="clean-card" style={styles.certCard}>
+                                <div style={styles.checkWrapper}>
+                                    <FiCheck size={13} strokeWidth={3} />
                                 </div>
-                            ))}
-                        </div>
+                                <span style={styles.certName}>{cert}</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -101,90 +86,73 @@ const Skills: React.FC = () => {
 };
 
 const styles: { [key: string]: React.CSSProperties } = {
-    section: {
-        background: 'var(--ink-2)',
-        borderTop: '1px solid var(--border)',
-        borderBottom: '1px solid var(--border)',
-    },
     groups: {
         display: 'flex',
         flexDirection: 'column',
-        gap: '2.75rem',
+        gap: '2rem',
     },
-    group: {},
-    subHeading: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '0.6rem',
-        color: 'var(--text-secondary)',
-        fontSize: '0.78rem',
+    groupHeader: {
         fontFamily: 'var(--font-mono)',
-        letterSpacing: '0.16em',
-        textTransform: 'uppercase',
-        marginBottom: '1.3rem',
-    },
-    count: {
-        color: 'var(--signal)',
-        fontSize: '0.72rem',
+        fontSize: '0.75rem',
+        fontWeight: 700,
+        letterSpacing: '0.1em',
+        color: 'var(--text-muted)',
+        marginBottom: '0.85rem',
     },
     grid: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(118px, 1fr))',
-        gap: '0.85rem',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))',
+        gap: '0.75rem',
     },
-    item: {
+    tile: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '0.7rem',
-        padding: '1.25rem 0.75rem',
-        border: '1px solid var(--border)',
-        background: 'var(--surface)',
-        borderRadius: '12px',
+        gap: '0.55rem',
+        padding: '1.15rem 0.65rem',
         textAlign: 'center',
-        cursor: 'default',
     },
-    iconWrapper: {
-        fontSize: '1.9rem',
-        color: 'var(--violet)',
+    icon: {
+        fontSize: '1.6rem',
+        color: 'var(--text-primary)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '38px',
     },
-    name: {
+    skillName: {
         fontSize: '0.8rem',
+        fontWeight: 700,
         color: 'var(--text-primary)',
         fontFamily: 'var(--font-mono)',
     },
     certGrid: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-        gap: '0.7rem',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+        gap: '0.65rem',
     },
-    certItem: {
+    certCard: {
         display: 'flex',
         alignItems: 'center',
-        gap: '0.7rem',
-        padding: '0.85rem 1rem',
-        border: '1px solid var(--border)',
-        background: 'var(--surface)',
-        borderRadius: '10px',
-        fontSize: '0.86rem',
-        color: 'var(--text-primary)',
-        cursor: 'default',
+        gap: '0.65rem',
+        padding: '0.75rem 0.85rem',
     },
-    certCheck: {
+    checkWrapper: {
         width: '20px',
         height: '20px',
         borderRadius: '50%',
-        background: 'var(--signal-soft)',
-        color: 'var(--signal)',
+        backgroundColor: '#09090b',
+        color: '#ffffff',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
+    },
+    certName: {
+        fontSize: '0.85rem',
+        fontWeight: 600,
+        color: 'var(--text-primary)',
+        fontFamily: 'var(--font-sans)',
     },
 };
 

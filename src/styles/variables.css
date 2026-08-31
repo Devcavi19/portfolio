@@ -1,57 +1,30 @@
 :root {
-  /* ── Dark theme (default) ───────────────────────────────────
-     Minimalist black and white premium theme                     */
-  --ink: #000000;
-  --ink-2: #0a0a0a;
-  --surface: #121212;
-  --surface-2: #1a1a1a;
-  --text-primary: #ffffff;
-  --text-secondary: #a3a3a3;
-  --text-faint: #737373;
+  /* ── Straightforward & Clean Minimalist Design ── */
+  --bg-main: #ffffff;
+  --bg-sidebar: #fafafa;
+  --bg-surface: #ffffff;
+  --bg-muted: #f4f4f5;
+  --bg-subtle: #fafafa;
 
-  --violet: #ffffff;
-  --violet-soft: rgba(255, 255, 255, 0.1);
-  --violet-glow: rgba(255, 255, 255, 0.2);
+  --text-primary: #09090b;
+  --text-secondary: #52525b;
+  --text-muted: #71717a;
 
-  --signal: #e5e5e5;
-  --signal-soft: rgba(229, 229, 229, 0.1);
+  --border-color: #e4e4e7;
+  --border-dark: #09090b;
+  
+  --accent-black: #000000;
+  --accent-white: #ffffff;
 
-  --border: #262626;
-  --border-strong: #404040;
-
-  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 
-  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.05) inset,
-    0 20px 50px -20px rgba(0, 0, 0, 0.9);
-  --shadow-glow: 0 0 0 1px rgba(255, 255, 255, 0.1),
-    0 24px 70px -30px rgba(255, 255, 255, 0.3);
-
-  --maxw: 1180px;
-}
-
-[data-theme='light'] {
-  --ink: #ffffff;
-  --ink-2: #fafafa;
-  --surface: #ffffff;
-  --surface-2: #f5f5f5;
-  --text-primary: #000000;
-  --text-secondary: #525252;
-  --text-faint: #737373;
-
-  --violet: #000000;
-  --violet-soft: rgba(0, 0, 0, 0.05);
-  --violet-glow: rgba(0, 0, 0, 0.15);
-
-  --signal: #262626;
-  --signal-soft: rgba(38, 38, 38, 0.1);
-
-  --border: #e5e5e5;
-  --border-strong: #d4d4d4;
-
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.05),
-    0 20px 50px -28px rgba(0, 0, 0, 0.15);
-  --shadow-glow: 0 0 0 1px rgba(0, 0, 0, 0.1),
-    0 24px 70px -34px rgba(0, 0, 0, 0.25);
+  /* Clean subtle shadows instead of heavy brutalist offsets */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+  --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  
+  --max-content-width: 1040px;
+  --sidebar-width: 270px;
 }

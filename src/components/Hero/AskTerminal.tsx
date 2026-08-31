@@ -64,10 +64,9 @@ const AskTerminal: React.FC = () => {
                 setPhase('answering');
             }
         };
-        timers.current.push(window.setTimeout(reveal, reduceMotion ? 0 : 480));
+        timers.current.push(window.setTimeout(reveal, reduceMotion ? 0 : 400));
     };
 
-    // Typewriter for the answer.
     useEffect(() => {
         if (phase !== 'answering') return;
         let i = 0;
@@ -78,11 +77,10 @@ const AskTerminal: React.FC = () => {
                 window.clearInterval(id);
                 setPhase('done');
             }
-        }, 15);
+        }, 12);
         return () => window.clearInterval(id);
     }, [phase, fullAnswer]);
 
-    // Seed an answered state on mount so the demo reads as "alive" instantly.
     useEffect(() => {
         return clearTimers;
     }, []);
@@ -98,8 +96,8 @@ const AskTerminal: React.FC = () => {
             <div style={s.header}>
                 <span style={s.headerName}>ask.herald()</span>
                 <span style={s.headerStatus}>
-                    <span style={s.dot} className="dot-live" />
-                    runs in your browser · no API
+                    <span className="dot-live-black" />
+                    Browser Retrieval Engine ({corpus.length} Chunks)
                 </span>
             </div>
 
@@ -112,19 +110,18 @@ const AskTerminal: React.FC = () => {
                 {phase === 'retrieving' ? (
                     <div style={s.retrieving}>
                         <span style={s.retrievingLabel}>
-                            <span style={s.dot} className="dot-live" /> retrieving from {corpus.length} chunks
+                            Indexing vectors & retrieving relevance...
                         </span>
-                        <span className="skeleton" style={{ ...s.skel, width: '92%' }} />
-                        <span className="skeleton" style={{ ...s.skel, width: '74%' }} />
+                        <div style={s.skelLine} />
                     </div>
                 ) : (
                     <>
                         {sources.length > 0 && (
-                            <div style={s.sources} className="fade-up">
-                                <span style={s.sourcesLabel}>sources</span>
+                            <div style={s.sources}>
+                                <span style={s.sourcesLabel}>CITED SOURCES</span>
                                 <div style={s.chipRow}>
                                     {sources.map((src) => (
-                                        <span key={src.id} style={s.sourceChip}>
+                                        <span key={src.id} className="stark-chip">
                                             <span style={s.sourceKind}>{kindLabel[src.kind]}</span>
                                             {src.label}
                                         </span>
@@ -134,7 +131,7 @@ const AskTerminal: React.FC = () => {
                         )}
                         <p style={s.answer} aria-live="polite">
                             {typed}
-                            {phase === 'answering' && <span className="caret">.</span>}
+                            {phase === 'answering' && <span style={s.caret}>_</span>}
                         </p>
                     </>
                 )}
@@ -142,19 +139,16 @@ const AskTerminal: React.FC = () => {
 
             <div style={s.footer}>
                 <form style={s.form} onSubmit={onSubmit}>
-                    <label htmlFor="ask-input" style={s.srOnly}>
-                        Ask a question about Herald
-                    </label>
                     <input
                         id="ask-input"
                         style={s.input}
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
-                        placeholder="Ask about my work, stack, or availability…"
+                        placeholder="Ask about Herald's work, stack, or thesis..."
                         autoComplete="off"
                     />
-                    <button type="submit" style={s.send} aria-label="Send question">
-                        ▸
+                    <button type="submit" className="btn-stark-primary" style={s.send}>
+                        Ask
                     </button>
                 </form>
                 <div style={s.suggestRow}>
@@ -162,7 +156,6 @@ const AskTerminal: React.FC = () => {
                         <button
                             key={q}
                             type="button"
-                            className="suggest-chip"
                             style={s.suggestChip}
                             onClick={() => ask(q)}
                         >
@@ -177,134 +170,119 @@ const AskTerminal: React.FC = () => {
 
 const s: { [k: string]: React.CSSProperties } = {
     shell: {
-        background: 'var(--surface)',
-        border: '1px solid var(--border)',
-        borderRadius: '16px',
-        boxShadow: 'var(--shadow-glow)',
+        backgroundColor: 'var(--bg-surface)',
+        border: '2px solid var(--border-stark)',
+        borderRadius: '8px',
+        boxShadow: 'var(--shadow-stark)',
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        backdropFilter: 'blur(6px)',
     },
     header: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        gap: '0.75rem',
-        padding: '0.85rem 1.1rem',
-        borderBottom: '1px solid var(--border)',
-        background: 'var(--ink-2)',
+        padding: '0.75rem 1rem',
+        borderBottom: '2px solid var(--border-stark)',
+        backgroundColor: 'var(--bg-muted)',
     },
     headerName: {
         fontFamily: 'var(--font-mono)',
-        fontSize: '0.82rem',
-        color: 'var(--violet)',
-        fontWeight: 600,
+        fontSize: '0.85rem',
+        color: 'var(--accent-black)',
+        fontWeight: 700,
     },
     headerStatus: {
         display: 'inline-flex',
         alignItems: 'center',
         gap: '0.5rem',
         fontFamily: 'var(--font-mono)',
-        fontSize: '0.68rem',
-        color: 'var(--text-faint)',
-    },
-    dot: {
-        width: '7px',
-        height: '7px',
-        borderRadius: '50%',
-        background: 'var(--signal)',
-        display: 'inline-block',
-        flexShrink: 0,
+        fontSize: '0.72rem',
+        color: 'var(--text-muted)',
     },
     body: {
-        padding: '1.2rem 1.25rem 1.3rem',
-        minHeight: '212px',
+        padding: '1.25rem',
+        minHeight: '180px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '0.95rem',
+        gap: '1rem',
     },
     qRow: {
         display: 'flex',
-        gap: '0.6rem',
-        alignItems: 'baseline',
+        gap: '0.5rem',
+        alignItems: 'center',
+        padding: '0.5rem 0.75rem',
+        backgroundColor: 'var(--bg-muted)',
+        border: '1.5px solid var(--border-stark)',
+        borderRadius: '6px',
     },
     qCaret: {
         fontFamily: 'var(--font-mono)',
-        color: 'var(--violet)',
-        fontWeight: 700,
-        flexShrink: 0,
+        color: 'var(--accent-black)',
+        fontWeight: 800,
+        fontSize: '1.1rem',
     },
     qText: {
         fontFamily: 'var(--font-mono)',
-        fontSize: '0.92rem',
+        fontSize: '0.88rem',
+        fontWeight: 600,
         color: 'var(--text-primary)',
-        lineHeight: 1.4,
     },
     retrieving: {
         display: 'flex',
         flexDirection: 'column',
-        gap: '0.7rem',
+        gap: '0.5rem',
     },
     retrievingLabel: {
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '0.5rem',
         fontFamily: 'var(--font-mono)',
-        fontSize: '0.74rem',
-        color: 'var(--signal)',
+        fontSize: '0.75rem',
+        color: 'var(--text-muted)',
     },
-    skel: {
-        height: '0.7rem',
-        display: 'block',
+    skelLine: {
+        height: '8px',
+        backgroundColor: 'var(--border-stark)',
+        borderRadius: '4px',
+        width: '80%',
     },
     sources: {
         display: 'flex',
         flexDirection: 'column',
-        gap: '0.5rem',
+        gap: '0.4rem',
     },
     sourcesLabel: {
         fontFamily: 'var(--font-mono)',
-        fontSize: '0.64rem',
-        letterSpacing: '0.18em',
-        textTransform: 'uppercase',
-        color: 'var(--text-faint)',
+        fontSize: '0.65rem',
+        letterSpacing: '0.14em',
+        color: 'var(--text-muted)',
+        fontWeight: 700,
     },
     chipRow: {
         display: 'flex',
         flexWrap: 'wrap',
-        gap: '0.5rem',
-    },
-    sourceChip: {
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '0.45rem',
-        padding: '0.32rem 0.6rem',
-        borderRadius: '7px',
-        background: 'var(--signal-soft)',
-        border: '1px solid color-mix(in srgb, var(--signal) 35%, transparent)',
-        color: 'var(--text-primary)',
-        fontFamily: 'var(--font-mono)',
-        fontSize: '0.76rem',
+        gap: '0.4rem',
     },
     sourceKind: {
-        color: 'var(--signal)',
-        fontSize: '0.6rem',
-        letterSpacing: '0.1em',
+        color: 'var(--text-muted)',
+        fontSize: '0.65rem',
         textTransform: 'uppercase',
     },
     answer: {
-        fontSize: '1.02rem',
-        lineHeight: 1.62,
+        fontSize: '0.95rem',
+        lineHeight: 1.6,
         color: 'var(--text-primary)',
-        margin: 0,
+        fontFamily: 'var(--font-sans)',
+    },
+    caret: {
+        fontWeight: 800,
+        fontFamily: 'var(--font-mono)',
+        marginLeft: '2px',
     },
     footer: {
-        padding: '0 1.25rem 1.2rem',
+        padding: '0 1.25rem 1.25rem',
         display: 'flex',
         flexDirection: 'column',
-        gap: '0.7rem',
+        gap: '0.75rem',
     },
     form: {
         display: 'flex',
@@ -312,46 +290,33 @@ const s: { [k: string]: React.CSSProperties } = {
     },
     input: {
         flex: 1,
-        padding: '0.7rem 0.9rem',
-        borderRadius: '10px',
-        border: '1px solid var(--border-strong)',
-        background: 'var(--ink-2)',
+        padding: '0.65rem 0.85rem',
+        borderRadius: '6px',
+        border: '2px solid var(--border-stark)',
+        backgroundColor: 'var(--bg-surface)',
         color: 'var(--text-primary)',
-        fontSize: '0.9rem',
+        fontFamily: 'var(--font-mono)',
+        fontSize: '0.85rem',
         outline: 'none',
     },
     send: {
-        width: '44px',
-        borderRadius: '10px',
-        border: 'none',
-        background: 'var(--violet)',
-        color: 'var(--ink)',
-        fontSize: '1.1rem',
-        cursor: 'pointer',
-        fontWeight: 700,
+        padding: '0.65rem 1.2rem',
     },
     suggestRow: {
         display: 'flex',
         flexWrap: 'wrap',
-        gap: '0.45rem',
+        gap: '0.4rem',
     },
     suggestChip: {
-        padding: '0.4rem 0.7rem',
-        borderRadius: '999px',
-        border: '1px solid var(--border)',
-        background: 'transparent',
-        color: 'var(--text-secondary)',
+        padding: '0.3rem 0.6rem',
+        borderRadius: '4px',
+        border: '1.5px solid var(--border-stark)',
+        backgroundColor: 'var(--bg-surface)',
+        color: 'var(--text-primary)',
         fontFamily: 'var(--font-mono)',
-        fontSize: '0.74rem',
+        fontSize: '0.72rem',
+        fontWeight: 600,
         cursor: 'pointer',
-    },
-    srOnly: {
-        position: 'absolute',
-        width: '1px',
-        height: '1px',
-        overflow: 'hidden',
-        clip: 'rect(0 0 0 0)',
-        whiteSpace: 'nowrap',
     },
 };
 

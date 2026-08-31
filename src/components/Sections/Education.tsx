@@ -49,7 +49,7 @@ const Education: React.FC = () => {
 
             <div style={styles.courseworkBox}>
               <div style={styles.courseworkTitle}>KEY COMPUTER SCIENCE SUBJECTS:</div>
-              <div style={styles.courseworkGrid}>
+              <div className="coursework-grid-responsive">
                 {[
                   'Data Structures & Algorithms',
                   'Software Engineering & OOP',
@@ -105,7 +105,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     fontSize: '0.9rem',
     fontWeight: 600,
     color: 'var(--text-secondary)',
-    marginLeft: '1.75rem',
+    marginTop: '0.25rem',
   },
   gwaBadge: {
     display: 'inline-flex',

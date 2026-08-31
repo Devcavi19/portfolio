@@ -41,7 +41,7 @@ const Skills: React.FC = () => {
                 {/* Primary Technical Stack */}
                 <div>
                     <h3 style={styles.groupHeader}>PRIMARY DEVELOPMENT STACK</h3>
-                    <div style={styles.grid}>
+                    <div className="skills-grid-container">
                         {profile.skills.technical.map((skill, index) => (
                             <div key={index} className="clean-card" style={styles.tile}>
                                 <span style={styles.icon}>{getSkillIcon(skill)}</span>
@@ -54,7 +54,7 @@ const Skills: React.FC = () => {
                 {/* AI & RAG Specialties */}
                 <div>
                     <h3 style={styles.groupHeader}>AI & SPECIALIZED ARCHITECTURES</h3>
-                    <div style={styles.grid}>
+                    <div className="skills-grid-container">
                         {profile.skills.advanced.map((skill, index) => (
                             <div key={index} className="clean-card" style={styles.tile}>
                                 <span style={styles.icon}>{getSkillIcon(skill)}</span>
@@ -69,7 +69,7 @@ const Skills: React.FC = () => {
                     <h3 style={styles.groupHeader}>
                         VERIFIED CERTIFICATIONS ({profile.skills.certifications.length})
                     </h3>
-                    <div style={styles.certGrid}>
+                    <div className="cert-grid-container">
                         {profile.skills.certifications.map((cert, index) => (
                             <div key={index} className="clean-card" style={styles.certCard}>
                                 <div style={styles.checkWrapper}>

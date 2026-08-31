@@ -27,7 +27,7 @@ const Blogs: React.FC<BlogsProps> = ({ onBack }) => {
         Technical notes, AI architecture breakdowns, performance optimizations, and dev workflow guides.
       </p>
 
-      <div style={styles.grid}>
+      <div className="responsive-grid-cards">
         {profile.blogs.map((blog) => (
           <article key={blog.id} className="clean-card" style={styles.card}>
             <div style={styles.metaRow}>
@@ -56,8 +56,8 @@ const Blogs: React.FC<BlogsProps> = ({ onBack }) => {
 
       {/* Modal for Article Reading */}
       {selectedBlog && (
-        <div style={styles.modalBackdrop} onClick={() => setSelectedBlog(null)}>
-          <div style={styles.modalCard} onClick={(e) => e.stopPropagation()}>
+        <div className="modal-backdrop-responsive" onClick={() => setSelectedBlog(null)}>
+          <div className="modal-card-responsive" onClick={(e) => e.stopPropagation()}>
             <div style={styles.modalMeta}>
               <span className="pill-tag-dark">{selectedBlog.category}</span>
               <span style={styles.modalDate}>{selectedBlog.date} · {selectedBlog.readTime}</span>

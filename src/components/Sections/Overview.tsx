@@ -7,7 +7,7 @@ const Overview: React.FC = () => {
     <section id="overview" className="portfolio-section">
       <div className="section-label">01 / OVERVIEW</div>
       
-      <div className="clean-card" style={styles.heroCard}>
+      <div className="clean-card hero-card">
         <div style={styles.headerRow}>
           <div>
             <div style={styles.availabilityPill}>
@@ -45,7 +45,7 @@ const Overview: React.FC = () => {
         </div>
 
         {/* Highlight Stats / Quick Facts Grid */}
-        <div style={styles.statsGrid}>
+        <div className="stats-grid-container">
           <div style={styles.statCard}>
             <div style={styles.statVal}>1.5</div>
             <div style={styles.statLabel}>Academic GWA</div>
@@ -64,7 +64,7 @@ const Overview: React.FC = () => {
           </div>
         </div>
 
-        <div style={styles.ctaRow}>
+        <div className="cta-row-container">
           <a href={`mailto:${profile.email}`} className="btn-primary">
             <FiMail size={15} /> Contact Herald
           </a>

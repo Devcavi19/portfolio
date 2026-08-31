@@ -74,7 +74,7 @@ const App: React.FC = () => {
 
         {/* Footer */}
         <footer style={styles.footer}>
-          <div style={styles.footerInner}>
+          <div className="footer-inner-responsive">
             <div>
               <div style={styles.footerTitle}>Herald Carl Avila</div>
               <div style={styles.footerSub}>Full-Stack & AI Developer · Bicol, PH</div>

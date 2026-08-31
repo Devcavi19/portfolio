@@ -25,7 +25,7 @@ const Devices: React.FC<DevicesProps> = ({ onBack }) => {
         The physical machines, developer software toolchain, IDE plugins, and vector database engines used to build and deploy applications.
       </p>
 
-      <div style={styles.grid}>
+      <div className="responsive-grid-cards">
         {profile.devices.map((cat, index) => (
           <div key={index} className="clean-card" style={styles.card}>
             <div style={styles.catHeader}>

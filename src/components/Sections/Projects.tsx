@@ -69,7 +69,7 @@ const Projects: React.FC = () => {
                 </a>
             </div>
 
-            <div style={styles.grid}>
+            <div className="responsive-grid-cards">
                 {profile.projects.map((project, index) => {
                     const isCapstone = /adal/i.test(project.title);
                     return (

@@ -93,7 +93,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     fontSize: '0.9rem',
     fontWeight: 600,
     color: 'var(--text-secondary)',
-    marginLeft: '1.65rem',
+    marginTop: '0.25rem',
   },
   metaRow: {
     display: 'flex',

@@ -8,7 +8,7 @@ const Awards: React.FC = () => {
       <div className="section-label">06 / AWARDS</div>
       <h2 className="section-title">Honors & Recognitions</h2>
 
-      <div style={styles.grid}>
+      <div className="responsive-grid-cards">
         {profile.awards.map((award, index) => (
           <div key={index} className="clean-card" style={styles.card}>
             <div style={styles.badgeRow}>

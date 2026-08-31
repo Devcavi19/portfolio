@@ -17,7 +17,7 @@ import {
 } from 'react-icons/fi';
 import { profile } from '../../data/profile';
 
-export const contentNavItems = [
+const contentNavItems = [
   { id: 'overview', label: 'Overview', icon: FiUser },
   { id: 'education', label: 'Education', icon: FiBookOpen },
   { id: 'experience', label: 'Work Experience', icon: FiBriefcase },
@@ -26,7 +26,7 @@ export const contentNavItems = [
   { id: 'awards', label: 'Awards', icon: FiAward },
 ];
 
-export const otherNavItems = [
+const otherNavItems = [
   { id: 'blogs', label: 'Blogs', icon: FiFileText, page: 'blogs' as const },
   { id: 'devices', label: 'Devices', icon: FiMonitor, page: 'devices' as const },
 ];
@@ -39,6 +39,27 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ activeView, onNavigate }) => {
   const [activeSection, setActiveSection] = useState('overview');
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Scroll lock and Escape key listener for mobile drawer
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileOpen) {
+        setMobileOpen(false);
+      }
+    };
+
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [mobileOpen]);
 
   useEffect(() => {
     if (activeView !== 'main') return;
@@ -76,28 +97,26 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onNavigate }) => {
   return (
     <>
       {/* Mobile Sticky Header */}
-      <header style={styles.mobileHeader}>
+      <header className="mobile-header">
         <div style={styles.mobileBrand}>
           <img src="/me1.png" alt={profile.name} style={styles.avatarMini} />
           <div>
             <div style={styles.mobileName}>{profile.name}</div>
-            <div style={styles.mobileRole}>Software Developer</div>
+            <div style={styles.mobileRole}>Full-Stack & AI Developer</div>
           </div>
         </div>
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
           style={styles.mobileToggleBtn}
-          aria-label="Toggle Navigation Menu"
+          aria-label={mobileOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
+          aria-expanded={mobileOpen}
         >
           {mobileOpen ? <FiX size={20} /> : <FiMenu size={20} />}
         </button>
       </header>
 
       {/* Desktop & Mobile Drawer Sidebar */}
-      <aside style={{
-        ...styles.sidebar,
-        ...(mobileOpen ? styles.sidebarMobileOpen : {})
-      }}>
+      <aside className={`sidebar-desktop ${mobileOpen ? 'mobile-open' : ''}`}>
         <div style={styles.sidebarInner}>
           {/* Profile Header */}
           <div style={styles.profileHeader}>
@@ -114,7 +133,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onNavigate }) => {
           </div>
 
           {/* Navigation Links */}
-          <nav style={styles.navMenu}>
+          <nav style={styles.navMenu} aria-label="Main Navigation">
             {/* CONTENTS Group */}
             <div style={styles.navHeaderLabel}>CONTENTS</div>
             {contentNavItems.map((item) => {
@@ -210,7 +229,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onNavigate }) => {
       {/* Backdrop overlay for mobile */}
       {mobileOpen && (
         <div
-          style={styles.mobileBackdrop}
+          className="mobile-backdrop"
           onClick={() => setMobileOpen(false)}
           aria-hidden="true"
         />

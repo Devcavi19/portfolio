@@ -8,7 +8,7 @@ import {
   FiAward,
   FiFileText,
   FiMonitor,
-  FiMenu,
+  FiSidebar,
   FiX,
   FiGithub,
   FiLinkedin,
@@ -39,6 +39,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ activeView, onNavigate }) => {
   const [activeSection, setActiveSection] = useState('overview');
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [desktopCollapsed, setDesktopCollapsed] = useState(false);
 
   // Scroll lock and Escape key listener for mobile drawer
   useEffect(() => {
@@ -98,44 +99,57 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onNavigate }) => {
     <>
       {/* Mobile Sticky Header */}
       <header className="mobile-header">
-        <div style={styles.mobileBrand}>
-          <img src="/me1.png" alt={profile.name} style={styles.avatarMini} />
-          <div>
-            <div style={styles.mobileName}>{profile.name}</div>
-            <div style={styles.mobileRole}>Full-Stack & AI Developer</div>
-          </div>
-        </div>
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
           style={styles.mobileToggleBtn}
           aria-label={mobileOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
           aria-expanded={mobileOpen}
         >
-          {mobileOpen ? <FiX size={20} /> : <FiMenu size={20} />}
+          {mobileOpen ? <FiX size={20} /> : <FiSidebar size={20} />}
         </button>
+        <div style={styles.mobileBrand}>
+          <div style={{ textAlign: 'right' }}>
+            <div style={styles.mobileName}>{profile.name}</div>
+            <div style={styles.mobileRole}>Full-Stack & AI Developer</div>
+          </div>
+          <img src="/me1.png" alt={profile.name} style={styles.avatarMini} />
+        </div>
       </header>
 
       {/* Desktop & Mobile Drawer Sidebar */}
-      <aside className={`sidebar-desktop ${mobileOpen ? 'mobile-open' : ''}`}>
-        <div style={styles.sidebarInner}>
+      <aside className={`sidebar-desktop ${mobileOpen ? 'mobile-open' : ''} ${desktopCollapsed ? 'desktop-collapsed' : ''}`}>
+        <div style={styles.sidebarInner} className="sidebar-inner-container">
           {/* Profile Header */}
-          <div style={styles.profileHeader}>
-            <div style={styles.avatarWrapper}>
-              <img src="/me1.png" alt={profile.name} style={styles.avatar} />
-              <span style={styles.statusDot} title="Available for roles">
-                <span className="dot-green" />
-              </span>
+          <div style={styles.profileHeader} className="profile-header-container">
+            <div className="header-top-row" style={styles.headerTopRow}>
+              <div style={styles.avatarWrapper} className="avatar-wrapper-box">
+                <img src="/me1.png" alt={profile.name} style={styles.avatar} />
+                <span style={styles.statusDot} title="Available for roles">
+                  <span className="dot-green" />
+                </span>
+              </div>
+              <button
+                onClick={() => setDesktopCollapsed(!desktopCollapsed)}
+                style={styles.desktopToggleBtn}
+                className="desktop-toggle-btn"
+                aria-label={desktopCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
+                title={desktopCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
+              >
+                <FiSidebar size={18} />
+              </button>
             </div>
             
-            <h1 style={styles.name}>{profile.name}</h1>
-            <p style={styles.role}>Full-Stack & AI Developer</p>
-            <div style={styles.location}>📍 {profile.location}</div>
+            <div className="profile-info-text">
+              <h1 style={styles.name}>{profile.name}</h1>
+              <p style={styles.role}>Full-Stack & AI Developer</p>
+              <div style={styles.location}>📍 {profile.location}</div>
+            </div>
           </div>
 
           {/* Navigation Links */}
           <nav style={styles.navMenu} aria-label="Main Navigation">
             {/* CONTENTS Group */}
-            <div style={styles.navHeaderLabel}>CONTENTS</div>
+            <div style={styles.navHeaderLabel} className="nav-header-label-text">CONTENTS</div>
             {contentNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeView === 'main' && activeSection === item.id;
@@ -143,19 +157,21 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onNavigate }) => {
                 <button
                   key={item.id}
                   onClick={() => handleContentNav(item.id)}
+                  title={item.label}
+                  className="nav-link-btn"
                   style={{
                     ...styles.navLink,
                     ...(isActive ? styles.navLinkActive : {})
                   }}
                 >
-                  <Icon size={16} style={{ color: isActive ? '#09090b' : '#71717a' }} />
-                  <span style={styles.navLabel}>{item.label}</span>
+                  <Icon size={16} style={{ color: isActive ? '#09090b' : '#71717a', flexShrink: 0 }} />
+                  <span style={styles.navLabel} className="nav-label-text">{item.label}</span>
                 </button>
               );
             })}
 
             {/* OTHERS Group */}
-            <div style={{ ...styles.navHeaderLabel, marginTop: '1.25rem' }}>OTHERS</div>
+            <div style={{ ...styles.navHeaderLabel, marginTop: '1.25rem' }} className="nav-header-label-text">OTHERS</div>
             {otherNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeView === item.page;
@@ -163,37 +179,41 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onNavigate }) => {
                 <button
                   key={item.id}
                   onClick={() => handleOtherNav(item.page)}
+                  title={item.label}
+                  className="nav-link-btn"
                   style={{
                     ...styles.navLink,
                     ...(isActive ? styles.navLinkActive : {})
                   }}
                 >
-                  <Icon size={16} style={{ color: isActive ? '#09090b' : '#71717a' }} />
-                  <span style={styles.navLabel}>{item.label}</span>
-                  <span style={styles.badgeNew}>Page</span>
+                  <Icon size={16} style={{ color: isActive ? '#09090b' : '#71717a', flexShrink: 0 }} />
+                  <span style={styles.navLabel} className="nav-label-text">{item.label}</span>
+                  <span style={styles.badgeNew} className="badge-new-tag">Page</span>
                 </button>
               );
             })}
           </nav>
 
           {/* Footer Socials & Resume */}
-          <div style={styles.sidebarFooter}>
+          <div style={styles.sidebarFooter} className="sidebar-footer-container">
             <a
               href="/Herald_Avila_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary"
+              className="btn-primary resume-btn-link"
               style={styles.resumeBtn}
+              title="Download Résumé"
             >
-              Download Résumé <FiArrowUpRight size={14} />
+              <span className="resume-btn-text">Download Résumé</span> <FiArrowUpRight size={14} style={{ flexShrink: 0 }} />
             </a>
 
-            <div style={styles.socialRow}>
+            <div style={styles.socialRow} className="social-row-container">
               <a
                 href={profile.links.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={styles.socialBtn}
+                className="social-btn-item"
                 aria-label="GitHub Profile"
                 title="GitHub"
               >
@@ -204,6 +224,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onNavigate }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 style={styles.socialBtn}
+                className="social-btn-item"
                 aria-label="LinkedIn Profile"
                 title="LinkedIn"
               >
@@ -212,6 +233,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onNavigate }) => {
               <a
                 href={`mailto:${profile.email}`}
                 style={styles.socialBtn}
+                className="social-btn-item"
                 aria-label="Send Email"
                 title="Email Herald"
               >
@@ -219,7 +241,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onNavigate }) => {
               </a>
             </div>
 
-            <div style={styles.copyright}>
+            <div style={styles.copyright} className="copyright-text">
               © {new Date().getFullYear()} Herald Carl Avila
             </div>
           </div>
@@ -309,11 +331,30 @@ const styles: { [key: string]: React.CSSProperties } = {
     paddingBottom: '1.25rem',
     borderBottom: '1px solid var(--border-color)',
   },
+  headerTopRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '0.85rem',
+  },
+  desktopToggleBtn: {
+    background: 'var(--bg-surface)',
+    color: 'var(--text-primary)',
+    border: '1px solid var(--border-color)',
+    borderRadius: '6px',
+    width: '32px',
+    height: '32px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    transition: 'all 0.15s ease',
+  },
   avatarWrapper: {
     position: 'relative',
     width: '64px',
     height: '64px',
-    marginBottom: '0.85rem',
+    marginBottom: '0',
   },
   avatar: {
     width: '100%',

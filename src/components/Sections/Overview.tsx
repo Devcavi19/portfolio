@@ -1,8 +1,12 @@
 import React from 'react';
-import { FiMail, FiMapPin, FiAward, FiArrowDown, FiDownload } from 'react-icons/fi';
+import { FiMail, FiMapPin, FiArrowDown, FiDownload, FiZap, FiCheckCircle } from 'react-icons/fi';
 import { profile } from '../../data/profile';
 
-const Overview: React.FC = () => {
+interface OverviewProps {
+  onOpenAiModal?: () => void;
+}
+
+const Overview: React.FC<OverviewProps> = ({ onOpenAiModal }) => {
   return (
     <section id="overview" className="portfolio-section">
       <div className="section-label">01 / OVERVIEW</div>
@@ -30,13 +34,13 @@ const Overview: React.FC = () => {
             <FiMapPin size={12} /> {profile.location}
           </span>
           <span className="pill-tag">
-            🎓 BS Computer Science (GWA 1.5)
+            🎓 BS Computer Science (CSPC)
           </span>
           <span className="pill-tag">
-            <FiAward size={12} /> Vibe Coding Champion
+            <FiCheckCircle size={12} style={{ color: '#10b981' }} /> Available Remote & On-site
           </span>
           <span className="pill-tag">
-            ⚡ 100/100 Lighthouse Performance
+            🤖 Production RAG & AI Security
           </span>
         </div>
 
@@ -44,7 +48,7 @@ const Overview: React.FC = () => {
           <p style={styles.bioText}>{profile.bio}</p>
         </div>
 
-        {/* Highlight Stats / Quick Facts Grid */}
+        {/* Highlight Stats / Quick Facts Grid - Non-redundant concrete metrics */}
         <div className="stats-grid-container">
           <div style={styles.statCard}>
             <div style={styles.statVal}>1.5</div>
@@ -55,17 +59,26 @@ const Overview: React.FC = () => {
             <div style={styles.statLabel}>Lighthouse Score</div>
           </div>
           <div style={styles.statCard}>
-            <div style={styles.statVal}>6+</div>
-            <div style={styles.statLabel}>Certifications</div>
+            <div style={styles.statVal}>1st Place</div>
+            <div style={styles.statLabel}>Vibe Coding Champion</div>
           </div>
           <div style={styles.statCard}>
-            <div style={styles.statVal}>AI & RAG</div>
-            <div style={styles.statLabel}>Core Specialization</div>
+            <div style={styles.statVal}>6+</div>
+            <div style={styles.statLabel}>Tech Certifications</div>
           </div>
         </div>
 
         <div className="cta-row-container">
-          <a href={`mailto:${profile.email}`} className="btn-primary">
+          {onOpenAiModal && (
+            <button
+              onClick={onOpenAiModal}
+              className="btn-primary"
+              style={{ backgroundColor: '#7c3aed', borderColor: '#7c3aed' }}
+            >
+              <FiZap size={15} /> Ask Portfolio AI [Cmd+K]
+            </button>
+          )}
+          <a href={`mailto:${profile.email}`} className="btn-secondary">
             <FiMail size={15} /> Contact Herald
           </a>
           <a href="#projects" className="btn-secondary">

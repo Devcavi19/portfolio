@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiArrowUpRight, FiGithub, FiExternalLink, FiLayers } from 'react-icons/fi';
+import { FiArrowUpRight, FiGithub, FiExternalLink, FiLayers, FiCheck } from 'react-icons/fi';
 import { profile } from '../../data/profile';
 
 const ImageSlider: React.FC<{ images: string[] }> = ({ images }) => {
@@ -72,19 +72,37 @@ const Projects: React.FC = () => {
             <div className="responsive-grid-cards">
                 {profile.projects.map((project, index) => {
                     const isCapstone = /adal/i.test(project.title);
+                    const badgeText = project.badge || (isCapstone ? 'AI CAPSTONE' : null);
                     return (
                         <article key={index} className="clean-card" style={styles.card}>
                             <div style={styles.imageWrap}>
                                 <ImageSlider images={project.images || []} />
-                                {isCapstone && (
+                                {badgeText && (
                                     <span className="pill-tag-dark" style={styles.capstoneBadge}>
-                                        AI CAPSTONE
+                                        {badgeText}
                                     </span>
                                 )}
                             </div>
                             <div style={styles.content}>
                                 <h3 style={styles.title}>{project.title}</h3>
+                                {project.subtitle && (
+                                    <p style={styles.subtitle}>{project.subtitle}</p>
+                                )}
                                 <p style={styles.description}>{project.description}</p>
+
+                                {project.highlights && project.highlights.length > 0 && (
+                                    <div style={styles.highlightsBox}>
+                                        <div style={styles.highlightsTitle}>KEY FEATURES & ENGINEERING HIGHLIGHTS:</div>
+                                        <ul style={styles.highlightsList}>
+                                            {project.highlights.map((highlight, hIndex) => (
+                                                <li key={hIndex} style={styles.highlightItem}>
+                                                    <FiCheck size={13} style={styles.highlightCheck} />
+                                                    <span>{highlight}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
                                 
                                 <div style={styles.techStack}>
                                     {project.tech.map((tech, i) => (
@@ -207,13 +225,56 @@ const styles: { [key: string]: React.CSSProperties } = {
         color: 'var(--text-primary)',
         fontSize: '1.25rem',
         fontWeight: 800,
-        marginBottom: '0.5rem',
+        marginBottom: '0.35rem',
+    },
+    subtitle: {
+        fontFamily: 'var(--font-mono)',
+        fontSize: '0.78rem',
+        color: 'var(--text-muted)',
+        marginBottom: '0.75rem',
+        lineHeight: 1.4,
     },
     description: {
         color: 'var(--text-secondary)',
         fontSize: '0.9rem',
         lineHeight: 1.55,
+        marginBottom: '1rem',
+    },
+    highlightsBox: {
+        padding: '0.85rem 1rem',
+        backgroundColor: 'var(--bg-muted)',
+        border: '1px solid var(--border-color)',
+        borderRadius: '8px',
         marginBottom: '1.15rem',
+    },
+    highlightsTitle: {
+        fontFamily: 'var(--font-mono)',
+        fontSize: '0.68rem',
+        fontWeight: 700,
+        letterSpacing: '0.06em',
+        color: 'var(--text-muted)',
+        marginBottom: '0.55rem',
+    },
+    highlightsList: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.45rem',
+        margin: 0,
+        padding: 0,
+        listStyle: 'none',
+    },
+    highlightItem: {
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: '0.5rem',
+        fontSize: '0.82rem',
+        color: 'var(--text-primary)',
+        lineHeight: 1.45,
+    },
+    highlightCheck: {
+        color: '#10b981',
+        flexShrink: 0,
+        marginTop: '2px',
     },
     techStack: {
         display: 'flex',

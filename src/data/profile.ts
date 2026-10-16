@@ -29,6 +29,8 @@ export interface ProjectItem {
     featured?: boolean;
     period?: string;
     subtitle?: string;
+    badge?: string;
+    highlights?: string[];
 }
 
 export interface AwardItem {
@@ -103,13 +105,13 @@ export const profile = {
     ] as WorkExperienceItem[],
     skills: {
         technical: [
-            "Python", "React", "HTML/CSS/JavaScript", "SQL",
-            "Supabase", "RAG Architecture", "Artificial Intelligence", "Prompt Engineering"
+            "Python", "Next.js / React", "TypeScript", "HTML/CSS/JavaScript", "SQL",
+            "Supabase", "RAG Architecture", "Prompt Engineering"
         ],
         advanced: [
             "Retrieval-Augmented Generation (RAG)", "Qdrant & FAISS Vector Stores",
-            "Multi-LLM Integration (Gemini, OpenAI, Mistral)", "WordPress & PHP Plugin Engineering",
-            "Full-Stack Web Development", "AI Security & Prompt Engineering"
+            "Multi-LLM Integration (Gemini, OpenAI, Mistral)", "Offline-First Architectures & Web Serial API",
+            "Full-Stack Web Development (Next.js, React)", "PostgreSQL Row-Level Security (RLS) & AI Security"
         ],
         certifications: [
             "GitHub Foundations",
@@ -139,19 +141,65 @@ export const profile = {
             title: "RAG Chatbot for Conversational Literature Search",
             subtitle: "Beyond LLMs: A RAG Chatbot for Efficient Literature Search and Thesis Retrieval in CSPC Library",
             period: "08/2025 – 04/2026",
+            badge: "AI CAPSTONE",
             tech: ["Python", "Flask", "LangChain", "FAISS", "Supabase", "Google Gemini API", "RAG", "Flask-SocketIO"],
             description: "Co-developed a retrieval-augmented chatbot web app using undergraduate theses as a knowledge base, enabling faster literature search. Built a FAISS vector store with sentence-transformers embeddings and LangChain for document retrieval, paired with Google Gemini (gemini-2.5-flash) for deterministic streaming LLM responses. Won Best Paper & Best Presenter at the 9th Bicol ICT Research Colloquium.",
+            highlights: [
+                "Dense Vector Search: FAISS vector index with sentence-transformers embeddings for fast semantic literature search across CSPC theses.",
+                "Deterministic Streaming: Paired with Google Gemini 2.5 Flash for streaming LLM responses over Flask-SocketIO.",
+                "Award-Winning Research: Recognized with Best Paper and Best Presenter at the 9th Bicol ICT Research Colloquium."
+            ],
             link: "https://adall.azurewebsites.net/about",
             repo: "https://github.com/Devcavi19/adal_ui_react",
             images: ["/project_img/adal_0.png", "/project_img/adal_1.png", "/project_img/adal_2.png", "/project_img/adal_3.png"],
             featured: true
         },
         {
+            title: "Selvy OIMS — Offline-First Retail Inventory & Order System",
+            subtitle: "Internal Order & Inventory Management System for Philippine Retail MSMEs",
+            period: "2026",
+            badge: "PRODUCTION SAAS",
+            tech: [
+                "Next.js 15",
+                "React 19",
+                "TypeScript",
+                "Tailwind CSS",
+                "Supabase (PostgreSQL + RLS)",
+                "TanStack React Query",
+                "Upstash Redis",
+                "IndexedDB",
+                "Web Serial API",
+                "Mistral AI",
+                "Vitest",
+                "ExcelJS"
+            ],
+            description: "Selvy OIMS is an offline-first Internal Order & Inventory Management System engineered for retail MSMEs—specifically agricultural feed stores, grain yards, and general retail in the Philippines. It eliminates the friction of dual-unit inventory (e.g., bulk 50kg bags vs. per-kilo retail) and poor store connectivity by digitizing stock movements, counter dockets, customer credit ledgers (\"utang\"), and cash reconciliation without heavy accounting overhead.",
+            highlights: [
+                "Dual-Unit Inventory: Real-time dynamic conversions between bulk supplier deliveries (sacks/boxes) and fractional retail sales (kg/pcs).",
+                "Offline-First Engine: Uses native IndexedDB and Service Workers for continuous order entry and stock lookups during internet dropouts, auto-syncing upon reconnection.",
+                "Web Serial API Hardware Control: Driverless ESC/POS thermal docket printing directly from the browser to USB/Serial POS printers.",
+                "Multi-Tenant RLS Security: Strict PostgreSQL Row-Level Security (RLS) in Supabase, enforcing complete tenant and branch data isolation.",
+                "Robust API Hardening: Strict Zod payload validation (anti-mass-assignment), Upstash Redis sliding-window rate limiting, and automated Vitest ownership test suites.",
+                "Suki & Credit Ledger (A/R): Comprehensive debt tracking, credit ceiling alerts, payment logging, and balance histories.",
+                "AI Business Advisor: Integrated Mistral AI for smart stock reorder alerts and daily store digests."
+            ],
+            link: "https://www.selvyoims.store",
+            repo: "",
+            images: ["/project_img/selvy_0.png"],
+            featured: true
+        },
+        {
             title: "Loam — Custom Shopify Furniture Storefront",
             subtitle: "Personal portfolio project · loam-vveqvivd.myshopify.com (password: tiacla)",
             period: "07/2026 – Present",
+            badge: "COMMERCE ENGINE",
             tech: ["Shopify", "Liquid", "JavaScript", "Dawn", "AJAX Cart API", "Metafields", "CSS"],
             description: "A custom Shopify theme built on Dawn with Liquid, vanilla JavaScript, and OS 2.0 sections simulating a merchant handoff. Shipped 'Shop the Room' interactive hotspots adding to cart without page reload, architected product specs as admin-editable metafields, and achieved 100/100 Lighthouse accessibility and SEO scores.",
+            highlights: [
+                "100/100 Lighthouse Scores: Perfect scores across Performance, Accessibility, Best Practices, and SEO on custom Dawn architecture.",
+                "Interactive Hotspots: 'Shop the Room' shopping experience adding items to cart via AJAX Cart API without reload.",
+                "Admin Metafields: Fully modular OS 2.0 sections with admin-editable metafield schemas for dynamic product specifications."
+            ],
             link: "https://loam-vveqvivd.myshopify.com",
             repo: "",
             images: [],
@@ -161,8 +209,13 @@ export const profile = {
             title: "Trashtag",
             subtitle: "Community Eco Initiative Web Platform",
             period: "2025",
+            badge: "ECO PLATFORM",
             tech: ["React", "TypeScript", "Tailwind CSS"],
             description: "A modern web application delivering a seamless user experience with a polished, responsive interface for community eco initiatives.",
+            highlights: [
+                "Responsive Architecture: Modern web application delivering a polished, seamless interface for community eco initiatives.",
+                "Clean Component Design: Built with React, TypeScript, and utility-first Tailwind CSS for lightweight rendering."
+            ],
             link: "https://trashtag.heraldavila.me",
             repo: "",
             images: [],

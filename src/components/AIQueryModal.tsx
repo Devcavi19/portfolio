@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   FiX,
   FiSend,
@@ -26,14 +26,36 @@ interface QAAnswer {
 
 const PRESET_QUESTIONS = [
   "What RAG & AI systems has Herald built?",
+  "Tell me about Selvy OIMS (offline-first inventory system).",
   "Tell me about Herald's 100/100 Lighthouse Shopify theme.",
-  "What is Herald's academic background & GWA?",
   "What experience does he have with Naga City Govt?",
   "What certifications and skills does Herald possess?"
 ];
 
 const getAIResponse = (query: string): QAAnswer => {
   const q = query.toLowerCase();
+
+  if (
+    q.includes('selvy') ||
+    q.includes('oims') ||
+    q.includes('inventory') ||
+    q.includes('offline') ||
+    q.includes('serial') ||
+    q.includes('pos') ||
+    q.includes('docket') ||
+    q.includes('thermal') ||
+    q.includes('utang') ||
+    q.includes('feed')
+  ) {
+    return {
+      reply: `Herald engineered 'Selvy OIMS' (selvyoims.store), an offline-first Internal Order & Inventory Management System for retail MSMEs in the Philippines. It features dynamic dual-unit conversion (bulk sacks to fractional kilos), offline order entry with native IndexedDB and Service Workers, driverless Web Serial ESC/POS thermal printing, Supabase multi-tenant RLS security, Upstash Redis rate limiting, and an integrated Mistral AI business advisor.`,
+      sectionId: 'projects',
+      viewId: 'main',
+      actionText: 'Visit Selvy OIMS Live Site',
+      actionUrl: 'https://www.selvyoims.store',
+      tags: ['Offline-First', 'Next.js 15', 'Supabase RLS', 'Web Serial API', 'Mistral AI']
+    };
+  }
 
   if (q.includes('rag') || q.includes('ai') || q.includes('llm') || q.includes('qdrant') || q.includes('vector') || q.includes('thesis') || q.includes('chatbot')) {
     return {
@@ -122,30 +144,34 @@ export const AIQueryModal: React.FC<AIQueryModalProps> = ({ isOpen, onClose, onN
   const inputRef = useRef<HTMLInputElement>(null);
   const typingTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  const handleClose = useCallback(() => {
+    if (typingTimerRef.current) clearInterval(typingTimerRef.current);
+    setQuery('');
+    setActiveAnswer(null);
+    setTypedText('');
+    setIsTyping(false);
+    onClose();
+  }, [onClose]);
+
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
+      if (e.key === 'Escape') {
+        handleClose();
       }
     };
 
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      window.addEventListener('keydown', handleKeyDown);
-      setTimeout(() => inputRef.current?.focus(), 50);
-    } else {
-      document.body.style.overflow = '';
-      setQuery('');
-      setActiveAnswer(null);
-      setTypedText('');
-      setIsTyping(false);
-    }
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyDown);
+    const timer = setTimeout(() => inputRef.current?.focus(), 50);
 
     return () => {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKeyDown);
+      clearTimeout(timer);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, handleClose]);
 
   const handleAsk = (userQuery: string) => {
     if (!userQuery.trim()) return;
@@ -175,7 +201,7 @@ export const AIQueryModal: React.FC<AIQueryModalProps> = ({ isOpen, onClose, onN
 
   const handleActionClick = () => {
     if (!activeAnswer) return;
-    onClose();
+    handleClose();
 
     if (activeAnswer.actionUrl) {
       window.open(activeAnswer.actionUrl, '_blank');
@@ -187,7 +213,7 @@ export const AIQueryModal: React.FC<AIQueryModalProps> = ({ isOpen, onClose, onN
   if (!isOpen) return null;
 
   return (
-    <div className="modal-backdrop-responsive" onClick={onClose} aria-modal="true" role="dialog">
+    <div className="modal-backdrop-responsive" onClick={handleClose} aria-modal="true" role="dialog">
       <div
         className="modal-card-responsive"
         style={styles.modalCard}
@@ -206,7 +232,7 @@ export const AIQueryModal: React.FC<AIQueryModalProps> = ({ isOpen, onClose, onN
           </div>
 
           <button
-            onClick={onClose}
+            onClick={handleClose}
             style={styles.closeBtn}
             aria-label="Close AI Assistant Modal"
           >

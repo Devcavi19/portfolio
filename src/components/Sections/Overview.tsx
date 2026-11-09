@@ -20,7 +20,7 @@ const Overview: React.FC<OverviewProps> = ({ onOpenAiModal }) => {
             </div>
             
             <h1 style={styles.headline}>
-              Full-Stack Developer & AI Specialist
+              Software Developer
             </h1>
             
             <p style={styles.tagline}>
